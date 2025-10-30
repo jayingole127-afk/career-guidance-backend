@@ -30,6 +30,7 @@ connectDB();
 const authRoutes = require('./routes/auth');
 const assessmentRoutes = require('./routes/assessment');
 const careerRoutes = require('./routes/career');
+const aiRoutes = require("./routes/aiRoutes"); // ✅ Added AI route import
 
 // Test Route
 app.get('/', (req, res) => {
@@ -39,7 +40,8 @@ app.get('/', (req, res) => {
     endpoints: {
       auth: '/api/auth/register, /api/auth/login',
       assessment: '/api/assessment',
-      career: '/api/career/recommendations'
+      career: '/api/career/recommendations',
+      ai: '/api/ai/recommendations' // ✅ Added AI route info
     }
   });
 });
@@ -48,6 +50,7 @@ app.get('/', (req, res) => {
 app.use('/api/auth', authRoutes);
 app.use('/api/assessment', assessmentRoutes);
 app.use('/api/career', careerRoutes);
+app.use("/api/ai", aiRoutes); // ✅ Added AI route
 
 // Error handling middleware
 app.use((err, req, res, next) => {
