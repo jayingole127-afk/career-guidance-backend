@@ -34,7 +34,7 @@ function Login({ onLogin }) {
       
       onLogin(response.data.user);
     } catch (err) {
-      setError(err.response?.data?.message || 'Connection error. Check if backend is running on port 5001');
+      setError(err.response?.data?.message || 'Connection error. Please try again later.');
     } finally {
       setLoading(false);
     }
