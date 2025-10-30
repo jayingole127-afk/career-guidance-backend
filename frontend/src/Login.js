@@ -19,26 +19,33 @@ function Login({ onLogin }) {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    setError('');
-    setLoading(true);
+  e.preventDefault();
+  setError('');
+  setLoading(true);
 
-    try {
-      const endpoint = isRegister ? '/auth/register' : '/auth/login';
-      const data = isRegister ? formData : { email: formData.email, password: formData.password };
-      
-      const response = await API.post(endpoint, data);
-      
-      localStorage.setItem('token', response.data.token);
-      localStorage.setItem('user', JSON.stringify(response.data.user));
-      
-      onLogin(response.data.user);
-    } catch (err) {
-      setError(err.response?.data?.message || 'Connection error. Please try again later.');
-    } finally {
-      setLoading(false);
-    }
-  };
+  try {
+    // Make sure /api/auth is used!
+    const endpoint = isRegister
+      ? '/api/auth/register'
+      : '/api/auth/login';
+
+    const data = isRegister
+      ? formData
+      : { email: formData.email, password: formData.password };
+    
+    const response = await API.post(endpoint, data);
+    
+    localStorage.setItem('token', response.data.token);
+    localStorage.setItem('user', JSON.stringify(response.data.user));
+    
+    onLogin(response.data.user);
+  } catch (err) {
+    setError(err.response?.data?.message || 'Connection error. Please try again later.');
+  } finally {
+    setLoading(false);
+  }
+};
+
 
   return (
     <div className="login-container">

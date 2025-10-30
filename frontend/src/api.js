@@ -1,8 +1,7 @@
 import axios from 'axios';
 
-const endpoint = isRegister
-  ? '/api/auth/register'
-  : '/api/auth/login';
+const API = axios.create({
+  baseURL: process.env.REACT_APP_API_URL
 });
 
 API.interceptors.request.use((req) => {
