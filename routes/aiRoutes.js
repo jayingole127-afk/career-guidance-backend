@@ -1,8 +1,9 @@
-// backend/routes/aiRoutes.js
-const express = require("express");
-const router = express.Router();
-const { generateCareerRecommendations } = require('../services/aiService');
+import express from "express";
+import { generateCareerRecommendations } from "../services/aiService.js";
 
+const router = express.Router();
+
+// POST: /api/ai/recommendations
 router.post("/recommendations", async (req, res) => {
   try {
     const assessmentData = req.body;
@@ -14,4 +15,4 @@ router.post("/recommendations", async (req, res) => {
   }
 });
 
-module.exports = router;
+export default router;
