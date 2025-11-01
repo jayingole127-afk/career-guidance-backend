@@ -56,6 +56,7 @@ import connectDB from "./config/db.js";
 import cors from "cors"; // <-- Added
 
 import authRoutes from "./routes/auth.js";
+// app.use("/api/auth", authRoutes);
 import assessmentRoutes from "./routes/assessment.js";
 import aiRoutes from "./routes/aiRoutes.js";
 
