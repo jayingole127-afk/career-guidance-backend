@@ -47,7 +47,7 @@
 
 // module.exports = router;
 
-const express = require('express');
+import express = require('express');
 const router = express.Router();
 const auth = require('../middleware/auth');
 const Assessment = require('../models/Assessment');
@@ -137,4 +137,5 @@ Respond as a caring career coach:`;
   }
 });
 
-module.exports = router;
+// module.exports = router;
+export default router;

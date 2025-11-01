@@ -1,63 +1,25 @@
-// backend/services/aiService.js
-const { GoogleGenerativeAI } = require('@google/generative-ai');
+import { GoogleGenerativeAI } from "@google/generative-ai";
 
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
-async function generateCareerRecommendations(assessmentData) {
+export async function generateCareerRecommendations(assessmentData) {
   try {
-    const model = genAI.getGenerativeModel({ model: 'gemini-pro' });
+    const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
 
     const prompt = `
-You are an expert career counselor. Based on the following assessment data, provide 5 personalized career recommendations in JSON format.
+      You are an AI career advisor. Based on this user's assessment data, 
+      generate 3 personalized career recommendations with learning paths.
 
-User Profile:
-- Skills: ${assessmentData.currentSkills.join(', ')}
-- Interests: Technology(${assessmentData.interests.technology}), Business(${assessmentData.interests.business}), Healthcare(${assessmentData.interests.healthcare})
-- Personality: Creative(${assessmentData.personalityScores.creative}), Analytical(${assessmentData.personalityScores.analytical}), Leadership(${assessmentData.personalityScores.leadership})
-- Goals: ${assessmentData.goals}
-- Experience: ${assessmentData.experience}
-- Work Preference: ${assessmentData.workPreferences.workStyle}
-
-Provide response in this EXACT JSON format:
-{
-  "careers": [
-    {
-      "title": "Career Title",
-      "matchScore": 85,
-      "description": "Brief description",
-      "requiredSkills": ["skill1", "skill2"],
-      "skillGap": ["skill to learn"],
-      "salaryRange": {"min": 500000, "max": 1200000},
-      "demandLevel": "high",
-      "growthPotential": "excellent",
-      "educationRequired": ["Bachelor's in CS"],
-      "certifications": ["AWS Certified"],
-      "timeline": "6-12 months",
-      "pros": ["pro1", "pro2"],
-      "cons": ["con1"]
-    }
-  ],
-  "learningPath": {
-    "shortTerm": ["Learn Python", "Build portfolio"],
-    "mediumTerm": ["Get certified", "Gain experience"],
-    "longTerm": ["Master advanced skills", "Lead projects"]
-  }
-}
-`;
+      Assessment Data:
+      ${JSON.stringify(assessmentData, null, 2)}
+    `;
 
     const result = await model.generateContent(prompt);
-    const response = result.response.text();
+    const text = await result.response.text();
 
-    const jsonMatch = response.match(/\{[\s\S]*\}/);
-    if (jsonMatch) {
-      return JSON.parse(jsonMatch[0]);
-    }
-
-    throw new Error('Failed to parse AI response');
+    return { recommendations: text };
   } catch (error) {
-    console.error('AI Service Error:', error);
-    throw error;
+    console.error("AI Service Error:", error);
+    throw new Error("Error generating career recommendations");
   }
 }
-
-module.exports = { generateCareerRecommendations };
