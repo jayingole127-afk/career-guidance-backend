@@ -1,73 +1,33 @@
-// import express from "express";
-// import dotenv from "dotenv";
-// import connectDB from "./config/db.js";
-// import authRoutes from "./routes/auth.js";
-// import assessmentRoutes from "./routes/assessment.js";
-// import aiRoutes from "./routes/aiRoutes.js";
-
-// dotenv.config();
-// connectDB();
-
-// const app = express();
-// app.use(express.json());
-
-// // Routes
-// app.use("/api/auth", authRoutes);
-// app.use("/api/assessment", assessmentRoutes);
-// app.use("/api/ai", aiRoutes);
-
-// const PORT = process.env.PORT || 5001;
-// app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
-// import cors from "cors";
-// import express from "express";
-// import dotenv from "dotenv";
-// import connectDB from "./config/db.js";
-// import authRoutes from "./routes/auth.js";
-// import assessmentRoutes from "./routes/assessment.js";
-// import aiRoutes from "./routes/aiRoutes.js";
-
-// dotenv.config();
-// connectDB();
-
-// const app = express();
-// app.use(express.json());
-
-// // Routes
-// app.use("/api/auth", authRoutes);
-// app.use("/api/assessment", assessmentRoutes);
-// app.use("/api/ai", aiRoutes);
-
-// // Simple test GET endpoint for /api/users
-// app.get('/api/users', (req, res) => {
-//   res.json({ message: "Users endpoint working!" });
-// });
-
-// // Optional health check endpoint
-// app.get('/api/health', (req, res) => {
-//   res.json({ status: "ok" });
-// });
-
-// const PORT = process.env.PORT || 5001;
-// app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
-
+// Import dependencies
 import express from "express";
+import cors from "cors";
 import dotenv from "dotenv";
-import connectDB from "./config/db.js";
-import cors from "cors"; // <-- Added
+import connectDB from "./config/db.js";  // ✅ Correct path
 
-import authRoutes from "./routes/auth.js";
-// app.use("/api/auth", authRoutes);
+import authRoutes from "./routes/auth.js";  // ✅ No need for '../backend/...'
 import assessmentRoutes from "./routes/assessment.js";
 import aiRoutes from "./routes/aiRoutes.js";
 
-dotenv.config();
+// Load environment variables
+dotenv.config(); // ✅ No path needed since .env is in same folder
+
+// Connect to MongoDB
 connectDB();
 
+// Create Express app
 const app = express();
-app.use(cors({
-  origin: "http://localhost:3000", // <-- Your frontend URL
-  credentials: true
-}));
+
+// Middleware
+app.use(
+  cors({
+    origin: [
+      "http://localhost:3000",
+      "https://career-guidance-frontend.vercel.app",
+    ],
+    credentials: true,
+  })
+);
+
 app.use(express.json());
 
 // Routes
@@ -75,15 +35,10 @@ app.use("/api/auth", authRoutes);
 app.use("/api/assessment", assessmentRoutes);
 app.use("/api/ai", aiRoutes);
 
-// Simple test GET endpoint for /api/users
-app.get('/api/users', (req, res) => {
-  res.json({ message: "Users endpoint working!" });
-});
-
-// Optional health check endpoint
-app.get('/api/health', (req, res) => {
-  res.json({ status: "ok" });
-});
-
+// Port setup
 const PORT = process.env.PORT || 5001;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+
+// Start server
+app.listen(PORT, () => {
+  console.log(`✅ Server running on port ${PORT}`);
+});
