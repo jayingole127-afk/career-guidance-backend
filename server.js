@@ -18,17 +18,20 @@ connectDB();
 const app = express();
 
 // Middleware
-app.use(
-  cors({
-    origin: [
-      "http://localhost:3000",
-      "https://career-guidance-frontend.vercel.app",
-    ],
-    credentials: true,
-  })
-);
+app.use(cors({
+  origin: [
+    "http://localhost:3000",
+    "https://career-guidance-frontend.vercel.app",
+  ],
+  credentials: true,
+}));
 
 app.use(express.json());
+
+// ✅ Root route (add this before other routes)
+app.get("/", (req, res) => {
+  res.send("Career Guidance Backend is running successfully 🚀");
+});
 
 // Routes
 app.use("/api/auth", authRoutes);
@@ -36,9 +39,29 @@ app.use("/api/assessment", assessmentRoutes);
 app.use("/api/ai", aiRoutes);
 
 // Port setup
-const PORT = process.env.PORT || 5001;
+ const PORT = process.env.PORT || 5001;
 
-// Start server
+ // Start server/
 app.listen(PORT, () => {
-  console.log(`✅ Server running on port ${PORT}`);
+console.log(`✅ Server running on port ${PORT}`);
 });
+
+
+// // Middleware
+// app.use(
+//   cors({
+//     origin: [
+//       "http://localhost:3000",
+//       "https://career-guidance-frontend.vercel.app",
+//     ],
+//     credentials: true,
+//   })
+// );
+
+// app.use(express.json());
+
+// // Routes
+// app.use("/api/auth", authRoutes);
+// app.use("/api/assessment", assessmentRoutes);
+// app.use("/api/ai", aiRoutes);
+

@@ -2,8 +2,10 @@ import { GoogleGenerativeAI } from "@google/generative-ai";
 import dotenv from "dotenv";
 
 dotenv.config(); // load GEMINI_API_KEY from .env
+console.log("Gemini API Key loaded:", !!process.env.GEMINI_API_KEY);
 
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+
+// const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
 export async function generateCareerRecommendations(assessmentData) {
   try {
