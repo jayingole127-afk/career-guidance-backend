@@ -45,23 +45,3 @@ app.use("/api/ai", aiRoutes);
 app.listen(PORT, () => {
 console.log(`✅ Server running on port ${PORT}`);
 });
-
-
-// // Middleware
-// app.use(
-//   cors({
-//     origin: [
-//       "http://localhost:3000",
-//       "https://career-guidance-frontend.vercel.app",
-//     ],
-//     credentials: true,
-//   })
-// );
-
-// app.use(express.json());
-
-// // Routes
-// app.use("/api/auth", authRoutes);
-// app.use("/api/assessment", assessmentRoutes);
-// app.use("/api/ai", aiRoutes);
-
